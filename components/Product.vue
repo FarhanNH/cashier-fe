@@ -39,7 +39,11 @@
     </v-row>
     <v-row>
       <v-col cols="2" v-for="(product, index) in filteredProducts" :key="index">
-        <v-card :title="product.title" ripple="true">
+        <v-card
+          @click="addToCart(product.id)"
+          :title="product.title"
+          ripple="true"
+        >
           <v-card-action>
             <v-img
               :src="require(`@/assets/images/products/${product.thumbnail}`)"
@@ -56,7 +60,7 @@
 </template>
 
 <script>
-import { mapState, mapMutations } from 'vuex'
+import { mapState, mapMutations, mapActions } from 'vuex'
 export default {
   data() {
     return {
@@ -67,9 +71,13 @@ export default {
     }
   },
   methods: {
-    ...mapMutations('products', {
-      updateCategoryId: 'updateCategoryId',
+    ...mapActions({
+      updateCategoryId: 'products/updateCategoryId',
+      addToCart: 'carts/addToCart',
     }),
+    // ...mapActions('products', {
+    //   updateCategoryId: 'updateCategoryId',
+    // }),
     resetSearchCategory() {
       this.categoryId = false
     },
