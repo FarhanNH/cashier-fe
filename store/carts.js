@@ -16,6 +16,9 @@ export const getters = {
       }
     })
   },
+  itemTotal: () => (price, quantity) => {
+    return price * quantity
+  },
 }
 
 export const mutations = {
