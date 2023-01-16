@@ -34,7 +34,23 @@ export const getters = {
   subTotal: (state, getters) => {
     return getters.cartItems.reduce((total, item) => {
       return total + getters.itemTotal(item.price, item.quantity)
-    }, 0) // 0 adalah previous values / initial values (total)
+    }, 0) // 0 adalah previous values / initial values (total hanya penamaan bukan getters total)
+  },
+  calculatePercentage: (state, getters) => (value) => {
+    return (getters.subTotal * value) / 100
+  },
+  sumAdditional: (state, getters) => {
+    if (state.additionals.length) {
+      return state.additionals.reduce((total, item) => {
+        if (item.mode === 'percentage') {
+          return total + getters.calculatePercentage(item.value)
+        }
+        return total + item.value
+      }, 0) // 0 adalah previous values / initial values (total hanya penamaan bukan getters total)
+    }
+  },
+  total: (state, getters) => {
+    return getters.subTotal + getters.sumAdditional
   },
 }
 
