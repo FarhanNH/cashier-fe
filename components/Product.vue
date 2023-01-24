@@ -74,6 +74,7 @@ export default {
     ...mapActions({
       updateCategoryId: 'products/updateCategoryId',
       addToCart: 'carts/addToCart',
+      fetchProducts: 'products/fetchProducts',
     }),
     // ...mapActions('products', {
     //   updateCategoryId: 'updateCategoryId',
@@ -110,6 +111,9 @@ export default {
         })
       }, 1000)
     },
+  },
+  mounted() {
+    this.fetchProducts()
   },
 }
 </script>
