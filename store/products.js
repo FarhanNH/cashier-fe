@@ -1,11 +1,6 @@
 export const state = () => ({
   products: [],
-  categories: [
-    { id: false, title: 'All' },
-    { id: 1, title: 'Smartphone' },
-    { id: 2, title: 'Camera' },
-    { id: 3, title: 'Televisi' },
-  ],
+  categories: [{ _id: 0, title: 'All' }],
   categoryId: 0,
 })
 
@@ -15,6 +10,9 @@ export const mutations = {
   },
   updateProducts(state, products) {
     state.products = products
+  },
+  updateCategories(state, categories) {
+    state.categories.push(...categories)
   },
 }
 export const actions = {
@@ -27,6 +25,14 @@ export const actions = {
       .then((response) => {
         // console.log(response)
         commit('updateProducts', response.products)
+      })
+  },
+  fetchCategories({ commit }) {
+    return this.$axios
+      .$get('http://localhost:3000/categories')
+      .then((response) => {
+        // console.log(response)
+        commit('updateCategories', response.categories)
       })
   },
 }
