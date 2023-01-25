@@ -81,15 +81,17 @@ export default {
     //   updateCategoryId: 'updateCategoryId',
     // }),
     resetSearchCategory() {
-      this.categoryId = false
+      this.updateCategoryId(0)
     },
   },
   computed: {
     filteredProducts() {
       if (this.categoryId) {
-        return this.products.filter((s) => s.categoryId == this.categoryId)
-      } else if (this.selectedSearch) {
-        return this.products.filter((s) => s.title == this.selectedSearch.title)
+        return this.products.filter(
+          (product) => product.categoryId == this.categoryId
+        )
+        // } else if (this.selectedSearch) {
+        //   return this.products.filter((product) => product.title == this.selectedSearch.title)
       }
 
       return this.products
@@ -111,6 +113,11 @@ export default {
           return e.title
         })
       }, 1000)
+    },
+    selectedSearch(product) {
+      if (product) {
+        this.addToCart(product._id)
+      }
     },
   },
   mounted() {
