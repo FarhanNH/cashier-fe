@@ -73,5 +73,27 @@ export default {
       ],
     }
   },
+  methods: {
+    isWelcomeScreen() {
+      console.log(this.$router.currentRoute.path)
+      if (!localStorage.welcomeScreen) {
+        if (
+          this.$router.currentRoute.path != '/register' &&
+          this.$router.currentRoute.path != '/login'
+        ) {
+          this.$router.push('/register')
+        }
+      }
+    },
+  },
+  watch: {
+    $route() {
+      this.isWelcomeScreen()
+    },
+  },
+  mounted() {
+    // localStorage.setItem('welcomeScreen', true)
+    this.isWelcomeScreen()
+  },
 }
 </script>
