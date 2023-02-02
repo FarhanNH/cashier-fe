@@ -38,7 +38,14 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="onSubmit" color="primary">Register</v-btn>
+          <v-btn @click="onSubmit" color="primary" :disabled="isBusy">
+            <span v-if="!isBusy"> Register </span>
+            <v-progress-circular
+              v-else
+              color="primary"
+              indeterminate
+            ></v-progress-circular>
+          </v-btn>
         </v-card-actions>
       </v-card>
       <p>
@@ -51,6 +58,7 @@
 export default {
   data() {
     return {
+      isBusy: false,
       emailExist: false,
       form: {
         fullname: '',
@@ -63,7 +71,7 @@ export default {
         email: [
           (v) => !!v || 'Email is required',
           (v) => /.+@.+/.test(v) || 'Email invalid',
-          (v) => !!this.emailExist || 'Email already exist',
+          // (v) => !!this.emailExist || 'Email already exist',
         ],
         password: [
           (v) => !!v || 'Password is required',
@@ -91,10 +99,17 @@ export default {
         })
     },
     onSubmit() {
+      this.isBusy = true
       this.$axios
         .$post('http://localhost:3000/auth/register', this.form)
         .then((response) => {
+          this.isBusy = false
           console.log(response)
+          this.$router.push('/login')
+        })
+        .catch((error) => {
+          this.isBusy = false
+          console.log(error)
         })
     },
   },
