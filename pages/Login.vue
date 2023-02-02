@@ -4,6 +4,9 @@
       <v-card class="mb-2">
         <v-toolbar color="primary" dark>Login</v-toolbar>
         <v-card-text>
+          <v-alert v-if="message" color="red lighten-2" dark>
+            {{ message }}
+          </v-alert>
           <v-form>
             <v-text-field
               name="email"
@@ -45,6 +48,7 @@ export default {
   data() {
     return {
       isBusy: false,
+      message: '',
       form: {
         email: '',
         password: '',
@@ -76,7 +80,8 @@ export default {
         })
         .catch((error) => {
           this.isBusy = false
-          console.log(error)
+          console.log(error.response)
+          this.message = error.response.data.message
         })
     },
   },
