@@ -41,8 +41,16 @@ export default {
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
     // https://go.nuxtjs.dev/axios
+    //https://i18n.nuxtjs.org/
     '@nuxtjs/axios',
+    '@nuxtjs/i18n',
   ],
+
+  i18n: {
+    langDir: 'lang/',
+    defaultLocale: 'id',
+    locales: [{ code: 'id', name: 'Indonesia', iso: 'id-ID', file: 'id.json' }],
+  },
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
