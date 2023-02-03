@@ -44,6 +44,7 @@
   </v-row>
 </template>
 <script>
+import { mapMutations } from 'vuex'
 export default {
   data() {
     return {
@@ -63,6 +64,11 @@ export default {
     }
   },
   methods: {
+    ...mapMutations('auth', {
+      setFullname: setFullname,
+      setAccessToken: setAccessToken,
+      setRefreshToken: setRefreshToken,
+    }),
     storeWelcomeScreen() {
       localStorage.setItem('welcomeScreen', true)
     },
@@ -71,11 +77,20 @@ export default {
       this.$axios
         .$post('http://localhost:3000/auth/login', this.form)
         .then((response) => {
+          //login success
           this.isBusy = false
-          console.log(response)
+
+          //store passed welcome screen
           if (!localStorage.welcomeScreen) {
             this.storeWelcomeScreen()
           }
+
+          //store auth data
+          this.setFullname(response.fullname)
+          this.setAccessToken(response.access_token)
+          this.setRefreshToken(response.refresh_token)
+
+          //redirect to login page
           this.$router.push('/dashboard')
         })
         .catch((error) => {
