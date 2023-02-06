@@ -65,9 +65,9 @@ export default {
   },
   methods: {
     ...mapMutations('auth', {
-      setFullname: setFullname,
-      setAccessToken: setAccessToken,
-      setRefreshToken: setRefreshToken,
+      setAccessToken: 'setAccessToken',
+      setRefreshToken: 'setRefreshToken',
+      setFullname: 'setFullname',
     }),
     storeWelcomeScreen() {
       localStorage.setItem('welcomeScreen', true)
@@ -86,9 +86,9 @@ export default {
           }
 
           //store auth data
+          this.setAccessToken(response.accessToken)
+          this.setRefreshToken(response.refreshToken)
           this.setFullname(response.fullname)
-          this.setAccessToken(response.access_token)
-          this.setRefreshToken(response.refresh_token)
 
           //redirect to login page
           this.$router.push('/dashboard')
