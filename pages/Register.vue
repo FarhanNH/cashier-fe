@@ -56,6 +56,7 @@
 </template>
 <script>
 export default {
+  middleware: ['unauthenticated'],
   data() {
     return {
       isBusy: false,

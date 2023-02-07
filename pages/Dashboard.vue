@@ -5,7 +5,6 @@
         <v-toolbar color="primary" dark>Dashboard</v-toolbar>
         <v-card-text>
           <h2>Hello name,</h2>
-          {{ authenticated }}
         </v-card-text>
       </v-card>
     </v-col>
@@ -13,23 +12,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
-  computed: {
-    ...mapGetters('auth', {
-      authenticated: 'authenticated',
-    }),
-  },
-  mounted() {
-    if (!this.authenticated) {
-      this.$router.push({
-        name: 'login___id',
-        params: { message: 'AUTH_REQUIRED' },
-      })
-    }
-  },
+  middleware: ['authenticated'],
+  // computed: {
+  //   ...mapGetters('auth', {
+  //     authenticated: 'authenticated',
+  //   }),
+  // },
 }
 </script>
-
-<style></style>
