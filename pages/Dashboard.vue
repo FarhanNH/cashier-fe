@@ -21,6 +21,14 @@ export default {
       authenticated: 'authenticated',
     }),
   },
+  mounted() {
+    if (!this.authenticated) {
+      this.$router.push({
+        name: 'login___id',
+        params: { message: 'AUTH_REQUIRED' },
+      })
+    }
+  },
 }
 </script>
 

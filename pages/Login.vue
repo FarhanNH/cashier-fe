@@ -100,5 +100,10 @@ export default {
         })
     },
   },
+  mounted() {
+    if (this.$route.params.message == 'AUTH_REQUIRED') {
+      this.message = 'AUTH_REQUIRED'
+    }
+  },
 }
 </script>
