@@ -57,10 +57,13 @@ export default {
       },
       rules: {
         email: [
-          (v) => !!v || 'Email is required',
-          (v) => /.+@.+/.test(v) || 'Email invalid',
+          (v) => !!v || this.$t('FIELD_REQUIRED', { field: 'Email' }),
+          (v) =>
+            /.+@.+/.test(v) || this.$t('FIELD_INVALID', { field: 'Email' }),
         ],
-        password: [(v) => !!v || 'Password is required'],
+        password: [
+          (v) => !!v || this.$t('FIELD_REQUIRED', { field: 'Password' }),
+        ],
       },
     }
   },

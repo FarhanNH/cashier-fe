@@ -68,20 +68,28 @@ export default {
         retype_password: '',
       },
       rules: {
-        fullname: [(v) => !!v || 'Fullname is required'],
+        fullname: [
+          (v) => !!v || this.$t('FIELD_REQUIRED', { field: 'Full Name' }),
+        ],
         email: [
-          (v) => !!v || 'Email is required',
-          (v) => /.+@.+/.test(v) || 'Email invalid',
+          (v) => !!v || this.$t('FIELD_REQUIRED', { field: 'Email' }),
+          (v) =>
+            /.+@.+/.test(v) || this.$t('FIELD_INVALID', { field: 'Email' }),
           // (v) => !!this.emailExist || 'Email already exist',
         ],
         password: [
-          (v) => !!v || 'Password is required',
-          (v) => v.length >= 8 || 'Password must be at least 8 characters',
+          (v) => !!v || this.$t('FIELD_REQUIRED', { field: 'Password' }),
+          (v) =>
+            v.length >= 8 ||
+            this.$t('FIELD_MIN', { field: 'Password', min: 8 }),
         ],
         retype_password: [
           (v) =>
             v === this.form.password ||
-            'Re-Password must be same with Password',
+            this.$t('FIELD_CONFIRM', {
+              field: 'Password',
+              confirm: 'Re-Password',
+            }),
         ],
       },
     }
