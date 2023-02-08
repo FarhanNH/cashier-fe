@@ -9,6 +9,13 @@ export const getters = {
     if (state.access_token) {
       return true
     }
+    return false
+  },
+  user: (state) => {
+    if (state.access_token) {
+      return state.access_token
+    }
+    return null
   },
 }
 
