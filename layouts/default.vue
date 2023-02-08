@@ -63,6 +63,16 @@ export default {
           title: 'Notification',
           to: '/notification',
         },
+        {
+          icon: 'mdi-login',
+          title: 'Login',
+          to: '/login',
+        },
+        {
+          icon: 'mdi-logout',
+          title: 'Logout',
+          to: '/logout',
+        },
       ],
       bottomMenu: [
         {

@@ -22,4 +22,9 @@ export const mutations = {
   setFullname(state, fullname) {
     state.fullname = fullname
   },
+  logout(state) {
+    state.access_token = null
+    state.refresh_token = null
+    state.fullname = null
+  },
 }
