@@ -116,7 +116,7 @@ export default {
     },
     filterSideMenu() {
       this.sideMenu = this.originSideMenu.filter((item) => {
-        if (item.middleware.includes('employee')) {
+        if (item.middleware.includes(this.user.role)) {
           //User Role from db
           return true
         }
