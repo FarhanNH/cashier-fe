@@ -76,8 +76,8 @@ export default {
         },
         {
           icon: 'mdi-account',
-          title: 'Account',
-          to: '/account',
+          title: 'User Management',
+          to: '/users',
           middleware: ['admin'],
         },
         {
@@ -104,7 +104,7 @@ export default {
   },
   methods: {
     isWelcomeScreen() {
-      console.log(this.$router.currentRoute.path)
+      // console.log(this.$router.currentRoute.path)
       if (!localStorage.welcomeScreen) {
         if (
           this.$router.currentRoute.path != '/register' &&
@@ -145,7 +145,6 @@ export default {
   mounted() {
     // localStorage.setItem('welcomeScreen', true)
     this.isWelcomeScreen()
-    console.log(this.user)
     this.filterSideMenu()
   },
 }

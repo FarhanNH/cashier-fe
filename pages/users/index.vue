@@ -1,0 +1,78 @@
+<template>
+  <v-row class="frame-content">
+    <v-col cols="10" offset="1">
+      <v-card class="my-3">
+        <v-toolbar color="primary" dark> Users </v-toolbar>
+        <v-card-text>
+          <div class="mb-4">
+            <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
+          </div>
+          <v-data-table
+            :headers="headers"
+            :items-per-page="10"
+            :server-items-length="totalData"
+            :items="users"
+            :loading="loading"
+            :options.sync="options"
+            :footer-props="{ itemsPerPageOptions: [10, 20, 30, 40, 50] }"
+          ></v-data-table>
+        </v-card-text>
+      </v-card>
+    </v-col>
+  </v-row>
+</template>
+<script>
+export default {
+  data() {
+    return {
+      breadcrumbs: [
+        {
+          text: 'Users',
+          disable: true,
+          to: '/users',
+        },
+      ],
+      users: [],
+      totalData: 0,
+      options: {},
+      loading: false,
+      headers: [
+        { text: '#', value: 'row', sortable: false },
+        { text: 'Fullname', value: 'fullname', sortable: false },
+        { text: 'Email', value: 'email', sortable: false },
+        { text: 'Role', value: 'role', sortable: false },
+      ],
+    }
+  },
+  methods: {
+    fetchUsers() {
+      const { page, itemsPerPage } = this.options
+
+      this.loading = true
+      this.$axios
+        .$get(`http://localhost:3000/users?page=${page}&limit=${itemsPerPage}`)
+        .then((response) => {
+          this.users = response.users.docs
+          this.totalData = response.users.totalDocs
+
+          // let startItem = (page - 1) * itemsPerPage + 1
+          let startItem = response.users.pagingCounter
+          this.users.map((user) => (user.row = startItem++))
+          this.loading = false
+        })
+        .catch((err) => {
+          console.log(err)
+          this.loading = false
+        })
+    },
+  },
+  watch: {
+    options: {
+      handler() {
+        this.fetchUsers()
+      },
+      deep: true, //memantau perubahan pada array
+    },
+  },
+}
+</script>
