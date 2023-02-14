@@ -2,7 +2,17 @@
   <v-row class="frame-content">
     <v-col cols="10" offset="1">
       <v-card class="my-3">
-        <v-toolbar color="primary" dark> Users </v-toolbar>
+        <v-toolbar color="primary" dark>
+          Users
+          <v-spacer></v-spacer>
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search"
+            single-line
+            hide-details
+          ></v-text-field>
+        </v-toolbar>
         <v-card-text>
           <div class="mb-4">
             <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
@@ -14,6 +24,7 @@
             :items="users"
             :loading="loading"
             :options.sync="options"
+            :search.sync="search"
             :footer-props="{ itemsPerPageOptions: [10, 20, 30, 40, 50] }"
           ></v-data-table>
         </v-card-text>
@@ -42,6 +53,7 @@ export default {
         { text: 'Email', value: 'email', sortable: false },
         { text: 'Role', value: 'role', sortable: false },
       ],
+      search: '',
     }
   },
   methods: {
@@ -50,7 +62,9 @@ export default {
 
       this.loading = true
       this.$axios
-        .$get(`http://localhost:3000/users?page=${page}&limit=${itemsPerPage}`)
+        .$get(
+          `http://localhost:3000/users?page=${page}&limit=${itemsPerPage}&search=${this.search}`
+        )
         .then((response) => {
           this.users = response.users.docs
           this.totalData = response.users.totalDocs
@@ -72,6 +86,11 @@ export default {
         this.fetchUsers()
       },
       deep: true, //memantau perubahan pada array
+    },
+    search: {
+      handler() {
+        this.fetchUsers()
+      },
     },
   },
 }
