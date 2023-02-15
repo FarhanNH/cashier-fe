@@ -7,7 +7,7 @@
           <v-alert v-if="message" color="red lighten-2" dark>
             {{ $t(message) }}
           </v-alert>
-          <v-form>
+          <v-form ref="form">
             <v-text-field
               name="email"
               label="Email"
@@ -77,31 +77,33 @@ export default {
       localStorage.setItem('welcomeScreen', true)
     },
     onSubmit() {
-      this.isBusy = true
-      this.$axios
-        .$post('http://localhost:3000/auth/login', this.form)
-        .then((response) => {
-          //login success
-          this.isBusy = false
+      if (this.$refs.form.validate()) {
+        this.isBusy = true
+        this.$axios
+          .$post('http://localhost:3000/auth/login', this.form)
+          .then((response) => {
+            //login success
+            this.isBusy = false
 
-          //store passed welcome screen
-          if (!localStorage.welcomeScreen) {
-            this.storeWelcomeScreen()
-          }
+            //store passed welcome screen
+            if (!localStorage.welcomeScreen) {
+              this.storeWelcomeScreen()
+            }
 
-          //store auth data
-          this.setAccessToken(response.accessToken)
-          this.setRefreshToken(response.refreshToken)
-          this.setFullname(response.fullname)
+            //store auth data
+            this.setAccessToken(response.accessToken)
+            this.setRefreshToken(response.refreshToken)
+            this.setFullname(response.fullname)
 
-          //redirect to login page
-          this.$router.push('/dashboard')
-        })
-        .catch((error) => {
-          this.isBusy = false
-          console.log(error.response)
-          this.message = error.response.data.message
-        })
+            //redirect to login page
+            this.$router.push('/dashboard')
+          })
+          .catch((error) => {
+            this.isBusy = false
+            console.log(error.response)
+            this.message = error.response.data.message
+          })
+      }
     },
   },
   mounted() {

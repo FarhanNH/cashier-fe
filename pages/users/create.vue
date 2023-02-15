@@ -18,6 +18,7 @@
               type="email"
               :rules="rules.email"
               v-model="form.email"
+              @keydown="resetEmailExist"
             />
             <v-text-field
               name="password"
@@ -95,23 +96,28 @@ export default {
     }
   },
   methods: {
+    resetEmailExist() {
+      this.emailExist = false
+    },
     onSubmit() {
-      this.isBusy = true
-      this.$axios
-        .$post('http://localhost:3000/users', this.form)
-        .then((response) => {
-          this.isBusy = false
-          console.log(response)
-          this.$router.push('/users')
-        })
-        .catch((error) => {
-          this.isBusy = false
-          console.log(error)
-          if (error.response.data.message == 'EMAIL_EXIST') {
-            this.emailExist = true
-            this.$refs.form.validate()
-          }
-        })
+      if (this.$refs.form.validate()) {
+        this.isBusy = true
+        this.$axios
+          .$post('http://localhost:3000/users', this.form)
+          .then((response) => {
+            this.isBusy = false
+            console.log(response)
+            this.$router.push('/users')
+          })
+          .catch((error) => {
+            this.isBusy = false
+            console.log(error)
+            if (error.response.data.message == 'EMAIL_EXIST') {
+              this.emailExist = true
+              this.$refs.form.validate()
+            }
+          })
+      }
     },
   },
 }
