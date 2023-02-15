@@ -6,5 +6,6 @@
   "FIELD_INVALID": "Format {field} tidak valid",
   "AUTH_REQUIRED": "Anda harus login terlebih dahulu",
   "EMAIL_NOT_FOUND": "Email tidak ditemukan",
-  "PASSWORD_INVALID": "Password yang anda masukkan salah"
+  "PASSWORD_INVALID": "Password yang anda masukkan salah",
+  "EMAIL_EXIST": "Email sudah terdaftar"
 }

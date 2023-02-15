@@ -4,7 +4,7 @@
       <v-card class="mb-2">
         <v-toolbar color="primary" dark>Create User</v-toolbar>
         <v-card-text>
-          <v-form>
+          <v-form ref="form">
             <v-text-field
               name="name"
               label="Full Name"
@@ -48,9 +48,6 @@
           </v-btn>
         </v-card-actions>
       </v-card>
-      <p>
-        Sudah punya akun? <v-btn to="/login" text color="primary">Login</v-btn>
-      </p>
     </v-col>
   </v-row>
 </template>
@@ -78,6 +75,7 @@ export default {
           (v) => !!v || this.$t('FIELD_REQUIRED', { field: 'Email' }),
           (v) =>
             /.+@.+/.test(v) || this.$t('FIELD_INVALID', { field: 'Email' }),
+          (v) => !this.emailExist || this.$t('EMAIL_EXIST'),
         ],
         password: [
           (v) => !!v || this.$t('FIELD_REQUIRED', { field: 'Password' }),
@@ -109,6 +107,10 @@ export default {
         .catch((error) => {
           this.isBusy = false
           console.log(error)
+          if (error.response.data.message == 'EMAIL_EXIST') {
+            this.emailExist = true
+            this.$refs.form.validate()
+          }
         })
     },
   },

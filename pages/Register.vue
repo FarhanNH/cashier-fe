@@ -4,7 +4,7 @@
       <v-card class="mb-2">
         <v-toolbar color="primary" dark>Register</v-toolbar>
         <v-card-text>
-          <v-form>
+          <v-form ref="form">
             <v-text-field
               name="name"
               label="Full Name"
@@ -18,7 +18,6 @@
               type="email"
               :rules="rules.email"
               v-model="form.email"
-              @keyup="checkEmail"
             />
             <v-text-field
               name="password"
@@ -75,7 +74,7 @@ export default {
           (v) => !!v || this.$t('FIELD_REQUIRED', { field: 'Email' }),
           (v) =>
             /.+@.+/.test(v) || this.$t('FIELD_INVALID', { field: 'Email' }),
-          // (v) => !!this.emailExist || 'Email already exist',
+          (v) => !this.emailExist || this.$t('EMAIL_EXIST'),
         ],
         password: [
           (v) => !!v || this.$t('FIELD_REQUIRED', { field: 'Password' }),
@@ -95,18 +94,6 @@ export default {
     }
   },
   methods: {
-    checkEmail() {
-      this.$axios
-        .$post('http://localhost:3000/auth/check-email', this.form)
-        .then((response) => {
-          console.log(response)
-          this.emailExist = false
-        })
-        .catch((error) => {
-          this.emailExist = true
-          console.log(error)
-        })
-    },
     onSubmit() {
       this.isBusy = true
       this.$axios
@@ -119,6 +106,10 @@ export default {
         .catch((error) => {
           this.isBusy = false
           console.log(error)
+          if (error.response.data.message == 'EMAIL_EXIST') {
+            this.emailExist = true
+            this.$refs.form.validate()
+          }
         })
     },
   },
