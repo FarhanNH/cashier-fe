@@ -14,8 +14,12 @@
           ></v-text-field>
         </v-toolbar>
         <v-card-text>
-          <div class="mb-4">
+          <div class="d-flex mb-4">
             <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
+            <v-spacer></v-spacer>
+            <v-btn to="/users/create" color="primary" elevation="3" small>
+              User <v-icon right>mdi-plus-circle</v-icon>
+            </v-btn>
           </div>
           <v-data-table
             :headers="headers"
