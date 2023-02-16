@@ -14,6 +14,9 @@
           ></v-text-field>
         </v-toolbar>
         <v-card-text>
+          <v-alert v-if="alert.show" :type="alert.type" dismissible>
+            {{ alert.message }}
+          </v-alert>
           <div class="d-flex mb-4">
             <v-breadcrumbs :items="breadcrumbs" class="pa-0"></v-breadcrumbs>
             <v-spacer></v-spacer>
@@ -30,7 +33,16 @@
             :options.sync="options"
             :search.sync="search"
             :footer-props="{ itemsPerPageOptions: [10, 20, 30, 40, 50] }"
-          ></v-data-table>
+          >
+            <template v-slot:[`item.actions`]="{ item }">
+              <v-btn :to="`/users/edit/${item._id}`" icon>
+                <v-icon small>mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn icon>
+                <v-icon small>mdi-delete</v-icon>
+              </v-btn>
+            </template>
+          </v-data-table>
         </v-card-text>
       </v-card>
     </v-col>
@@ -47,6 +59,11 @@ export default {
           to: '/users',
         },
       ],
+      alert: {
+        show: false,
+        type: '',
+        message: '',
+      },
       users: [],
       totalData: 0,
       options: {},
@@ -56,6 +73,7 @@ export default {
         { text: 'Fullname', value: 'fullname', sortable: false },
         { text: 'Email', value: 'email', sortable: false },
         { text: 'Role', value: 'role', sortable: false },
+        { text: '', value: 'actions', sortable: false },
       ],
       search: '',
     }
@@ -96,6 +114,25 @@ export default {
         this.fetchUsers()
       },
     },
+  },
+  mounted() {
+    if (this.$route.params.message == 'CREATE_SUCCESS') {
+      this.alert.show = true
+      this.alert.type = 'success'
+      this.alert.message = this.$t(this.$route.params.message, {
+        title: this.$route.params.fullname,
+      })
+    } else if (this.$route.params.message == 'UPDATE_SUCCESS') {
+      this.alert.show = true
+      this.alert.type = 'success'
+      this.alert.message = this.$t(this.$route.params.message, {
+        title: this.$route.params.fullname,
+      })
+    } else if (this.$route.params.message == 'ID_NOT_FOUND') {
+      this.alert.show = true
+      this.alert.type = 'error'
+      this.alert.message = this.$t(this.$route.params.message)
+    }
   },
 }
 </script>

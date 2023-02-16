@@ -7,5 +7,8 @@
   "AUTH_REQUIRED": "Anda harus login terlebih dahulu",
   "EMAIL_NOT_FOUND": "Email tidak ditemukan",
   "PASSWORD_INVALID": "Password yang anda masukkan salah",
-  "EMAIL_EXIST": "Email sudah terdaftar"
+  "EMAIL_EXIST": "Email sudah terdaftar",
+  "ID_NOT_FOUND": "ID tidak ditemukan",
+  "CREATE_SUCCESS": "Membuat data {title} Berhasil",
+  "UPDATE_SUCCESS": "Mengubah data {title} Berhasil"
 }
