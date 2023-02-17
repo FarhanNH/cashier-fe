@@ -20,19 +20,15 @@ export const actions = {
     commit('updateCategoryId', categoryId) //nama mutation, parameter
   },
   fetchProducts({ commit }) {
-    return this.$axios
-      .$get('http://localhost:3000/products')
-      .then((response) => {
-        // console.log(response)
-        commit('updateProducts', response.products)
-      })
+    return this.$axios.$get('/products').then((response) => {
+      // console.log(response)
+      commit('updateProducts', response.products)
+    })
   },
   fetchCategories({ commit }) {
-    return this.$axios
-      .$get('http://localhost:3000/categories')
-      .then((response) => {
-        // console.log(response)
-        commit('updateCategories', response.categories)
-      })
+    return this.$axios.$get('/categories').then((response) => {
+      // console.log(response)
+      commit('updateCategories', response.categories)
+    })
   },
 }

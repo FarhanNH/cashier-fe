@@ -115,7 +115,7 @@ export default {
     },
     fetchData() {
       this.$axios
-        .$get(`http://localhost:3000/users/${this.id}`)
+        .$get(`/users/${this.id}`)
         .then((response) => {
           this.form.fullname = response.user.fullname
           this.form.email = response.user.email
@@ -135,7 +135,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.isBusy = true
         this.$axios
-          .$put(`http://localhost:3000/users/${this.id}`, this.form)
+          .$put(`/users/${this.id}`, this.form)
           .then((response) => {
             this.isBusy = false
             console.log(response)

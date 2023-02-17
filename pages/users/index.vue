@@ -108,9 +108,7 @@ export default {
 
       this.loading = true
       this.$axios
-        .$get(
-          `http://localhost:3000/users?page=${page}&limit=${itemsPerPage}&search=${this.search}`
-        )
+        .$get(`/users?page=${page}&limit=${itemsPerPage}&search=${this.search}`)
         .then((response) => {
           this.users = response.users.docs
           this.totalData = response.users.totalDocs
@@ -134,7 +132,7 @@ export default {
     },
     deleteConfirm(id) {
       this.$axios
-        .$delete(`http://localhost:3000/users/${id}`)
+        .$delete(`/users/${id}`)
         .then((response) => {
           console.log(response)
           this.users = this.users.filter((user) => user._id != id)

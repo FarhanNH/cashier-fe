@@ -102,7 +102,7 @@ export default {
       if (this.$refs.form.validate()) {
         this.isBusy = true
         this.$axios
-          .$post('http://localhost:3000/auth/register', this.form)
+          .$post('/auth/register', this.form)
           .then((response) => {
             this.isBusy = false
             console.log(response)
