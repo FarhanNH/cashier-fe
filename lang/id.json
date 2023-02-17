@@ -10,5 +10,6 @@
   "EMAIL_EXIST": "Email sudah terdaftar",
   "ID_NOT_FOUND": "ID tidak ditemukan",
   "CREATE_SUCCESS": "Membuat data {title} Berhasil",
-  "UPDATE_SUCCESS": "Mengubah data {title} Berhasil"
+  "UPDATE_SUCCESS": "Mengubah data {title} Berhasil",
+  "DELETE_SUCCESS": "Hapus data {title} Berhasil"
 }

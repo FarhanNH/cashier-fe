@@ -34,11 +34,33 @@
             :search.sync="search"
             :footer-props="{ itemsPerPageOptions: [10, 20, 30, 40, 50] }"
           >
+            <template v-slot:top>
+              <v-dialog v-model="dialogDelete" max-width="500px">
+                <v-card>
+                  <v-card-title>
+                    Anda yakin hapus data {{ itemDelete.fullname }} ?
+                  </v-card-title>
+                  <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="primary" text @click="closeDelete">
+                      Cancel
+                    </v-btn>
+                    <v-btn
+                      color="primary"
+                      text
+                      @click="deleteConfirm(itemDelete._id)"
+                      >Ok
+                    </v-btn>
+                  </v-card-actions>
+                </v-card>
+              </v-dialog>
+            </template>
+
             <template v-slot:[`item.actions`]="{ item }">
               <v-btn :to="`/users/edit/${item._id}`" icon>
                 <v-icon small>mdi-pencil</v-icon>
               </v-btn>
-              <v-btn icon>
+              <v-btn icon @click="deleteItem(item)">
                 <v-icon small>mdi-delete</v-icon>
               </v-btn>
             </template>
@@ -76,6 +98,8 @@ export default {
         { text: '', value: 'actions', sortable: false },
       ],
       search: '',
+      dialogDelete: false,
+      itemDelete: '',
     }
   },
   methods: {
@@ -101,6 +125,60 @@ export default {
           this.loading = false
         })
     },
+    deleteItem(item) {
+      this.dialogDelete = true
+      this.itemDelete = item
+    },
+    closeDelete() {
+      this.dialogDelete = false
+    },
+    deleteConfirm(id) {
+      this.$axios
+        .$delete(`http://localhost:3000/users/${id}`)
+        .then((response) => {
+          console.log(response)
+          this.users = this.users.filter((user) => user._id != id)
+          let startItem = this.users[0].row
+          this.users.map((user) => (user.row = startItem++))
+          this.totalData = this.totalData - 1
+          let params = {
+            message: 'DELETE_SUCCESS',
+            fullname: this.itemDelete.fullname,
+          }
+
+          this.showAlert(params)
+          this.closeDelete()
+        })
+        .catch((err) => {
+          console.log(err)
+          this.closeDelete()
+        })
+    },
+    showAlert(params) {
+      if (params.message == 'CREATE_SUCCESS') {
+        this.alert.show = true
+        this.alert.type = 'success'
+        this.alert.message = this.$t(params.message, {
+          title: params.fullname,
+        })
+      } else if (params.message == 'UPDATE_SUCCESS') {
+        this.alert.show = true
+        this.alert.type = 'success'
+        this.alert.message = this.$t(params.message, {
+          title: params.fullname,
+        })
+      } else if (params.message == 'DELETE_SUCCESS') {
+        this.alert.show = true
+        this.alert.type = 'success'
+        this.alert.message = this.$t(params.message, {
+          title: params.fullname,
+        })
+      } else if (params.message == 'ID_NOT_FOUND') {
+        this.alert.show = true
+        this.alert.type = 'error'
+        this.alert.message = this.$t(params.message)
+      }
+    },
   },
   watch: {
     options: {
@@ -116,23 +194,7 @@ export default {
     },
   },
   mounted() {
-    if (this.$route.params.message == 'CREATE_SUCCESS') {
-      this.alert.show = true
-      this.alert.type = 'success'
-      this.alert.message = this.$t(this.$route.params.message, {
-        title: this.$route.params.fullname,
-      })
-    } else if (this.$route.params.message == 'UPDATE_SUCCESS') {
-      this.alert.show = true
-      this.alert.type = 'success'
-      this.alert.message = this.$t(this.$route.params.message, {
-        title: this.$route.params.fullname,
-      })
-    } else if (this.$route.params.message == 'ID_NOT_FOUND') {
-      this.alert.show = true
-      this.alert.type = 'error'
-      this.alert.message = this.$t(this.$route.params.message)
-    }
+    this.showAlert(this.$route.params)
   },
 }
 </script>
