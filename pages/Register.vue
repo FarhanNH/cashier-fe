@@ -38,13 +38,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="onSubmit" color="primary" :disabled="isBusy">
-            <span v-if="!isBusy"> Register </span>
-            <v-progress-circular
-              v-else
-              color="primary"
-              indeterminate
-            ></v-progress-circular>
+          <v-btn @click="onSubmit" color="primary" :loading="isBusy">
+            Register
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -57,6 +52,9 @@
 <script>
 export default {
   middleware: ['unauthenticated'],
+  head: {
+    title: 'Register',
+  },
   data() {
     return {
       isBusy: false,

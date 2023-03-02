@@ -44,13 +44,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="onSubmit" color="primary" :disabled="isBusy">
-            <span v-if="!isBusy"> Update </span>
-            <v-progress-circular
-              v-else
-              color="primary"
-              indeterminate
-            ></v-progress-circular>
+          <v-btn @click="onSubmit" color="primary" :loading="isBusy">
+            Update
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -60,6 +55,9 @@
 <script>
 export default {
   middleware: ['authenticated'],
+  head: {
+    title: 'Edit User',
+  },
   asyncData({ params }) {
     return {
       id: params.id,

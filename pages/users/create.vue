@@ -40,13 +40,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="onSubmit" color="primary" :disabled="isBusy">
-            <span v-if="!isBusy"> Save </span>
-            <v-progress-circular
-              v-else
-              color="primary"
-              indeterminate
-            ></v-progress-circular>
+          <v-btn @click="onSubmit" color="primary" :loading="isBusy">
+            Save
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -56,6 +51,9 @@
 <script>
 export default {
   middleware: ['authenticated'],
+  head: {
+    title: 'Create User',
+  },
   data() {
     return {
       breadcrumbs: [

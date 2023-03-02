@@ -19,5 +19,8 @@ export default {
   //     authenticated: 'authenticated',
   //   }),
   // },
+  head: {
+    title: 'Dashboard',
+  },
 }
 </script>

@@ -26,13 +26,8 @@
         </v-card-text>
         <v-card-actions>
           <v-spacer></v-spacer>
-          <v-btn @click="onSubmit" color="primary" :disabled="isBusy">
-            <span v-if="!isBusy"> Login </span>
-            <v-progress-circular
-              v-else
-              color="primary"
-              indeterminate
-            ></v-progress-circular>
+          <v-btn @click="onSubmit" color="primary" :loading="isBusy">
+            Login
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -47,6 +42,9 @@
 import { mapMutations } from 'vuex'
 export default {
   middleware: ['unauthenticated'],
+  head: {
+    title: 'Login',
+  },
   data() {
     return {
       isBusy: false,
